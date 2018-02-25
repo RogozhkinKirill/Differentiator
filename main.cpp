@@ -6,7 +6,7 @@ int main()
 {
     printf ("Programme started\n");
 
-    char* res = Differentiator();
+    char* res = Differentiator();//Don't realized=======================================================================
 
     if (res)
         printf ("\n\n\nRESULT: %s\nDifferentiator finished correct\n\n\n" , res);

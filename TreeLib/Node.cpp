@@ -80,3 +80,10 @@ Node* Node::AddNodeLeft (value_type value , definision def)
         this->_left->AddNodeLeft (value , def);
     }
 }
+
+//Differentiate node using differentiation rules
+Node* Node::DiffeNode()
+{
+
+
+}

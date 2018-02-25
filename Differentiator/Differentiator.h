@@ -5,11 +5,11 @@
 #include "../decoder/decoder.h"
 
 
-char* Differentiator();//Don't realized
+char* Differentiator();//Don't realized=================================================================================
 
-bool CheckCorrect (char* funcStr);//Don't realized
+bool CheckCorrect (char* funcStr);//Don't realized======================================================================
 
-bool GetInfo();
+bool GetInfo();//Don't realized=========================================================================================
 
 
 #endif // DIFFERENTIATOR_H_

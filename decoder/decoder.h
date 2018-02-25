@@ -4,31 +4,88 @@
 #define code(x , y) y=x
 
 
-/*
- * using in Node (look TreeLib.h)
- * for fast analyze Node
- */
+/**============================================================================
+  * using in Node (look TreeLib.h)
+  * for fast analyze Node
+  *
+  * Functions could be:
+  *                    1)Single (1 argument ex. cos(x))
+  *
+  *                                Enumeration:
+  *                         cos(x), sin(x), tg(x), ctg(x),
+  *                         sh(x),  ch(x),  th(x), cth(x),
+  *                         -x,     exp(x), ln(x), lg(x),
+  *
+  *
+  *                          Save Argument to LEFT  Node
+  *                               NULL     to RIGHT Node
+  *
+  *                                 It looks like
+  *
+  *                                   ----------
+  *                                   |Function|
+  *                                   ----------
+  *                                  /          \
+  *                                 /            \
+  *                          ------------       ------
+  *                          |Argument(x)|      |NULL|
+  *                          ------------       ------
+  *
+  *
+  *
+  *                    2)Double (2 argument ex. x+y)
+  *
+  *                                  Enumeration:
+  *                          x+y,    x-y,    x*y,   x/y,
+  *                     log(x,y) (x - base,     y - argument),
+  *                       x^y    (x - argument, y - power),
+  *
+  *
+  *
+  *                          Save 1 Argument to LEFT  Node
+  *                               2 Argument to RIGHT Node
+  *
+  *                                 It looks like
+  *
+  *                                   ----------
+  *                                   |Function|
+  *                                   ----------
+  *                                  /          \
+  *                                 /            \
+  *                                /              \
+  *                        ---------------    ---------------
+  *                        |1 Argument(x)|    |2 Argument(y)|
+  *                        ---------------    ---------------
+  *
+  *============================================================================
+  */
 enum encoding
 {
+    //-------------------------------------------
     //FUNCTIONS
-    code(0xffffff01 , add),
-    code(0xffffff02 , sub),
-    code(0xffffff03 , mul),
-    code(0xffffff04 , div),
-    code(0xffffff05 , cos),
-    code(0xffffff06 , sin),
-    code(0xffffff07 , tg),
-    code(0xffffff08 , ctg),
-    code(0xffffff09 , sh),
-    code(0xffffff0a , ch),
-    code(0xffffff0b , th),
-    code(0xffffff0c , cth),
-    code(0xffffff0d , exp),
-    code(0xffffff0e , log),
-    code(0xffffff0f , ln),
-    code(0xffffff10 , lg),
+
+    //Single
+    code(0xffffff01 , cos),
+    code(0xffffff02 , sin),
+    code(0xffffff03 , tg),
+    code(0xffffff04 , ctg),
+    code(0xffffff05 , sh),
+    code(0xffffff06 , ch),
+    code(0xffffff07 , th),
+    code(0xffffff08 , cth),
+    code(0xffffff09 , exp),
+    code(0xffffff0a , ln),
+    code(0xffffff0b , lg),
+
+    //Double
+    code(0xffffff0c , add),
+    code(0xffffff0d , sub),
+    code(0xffffff0e , mul),
+    code(0xffffff0f , div),
+    code(0xffffff10 , log),
     code(0xffffff11 , pow),
 
+    //-------------------------------------------
     // VARIABLE
     code(0xfffffd01 , a),
     code(0xfffffd02 , b),
@@ -73,10 +130,10 @@ enum  encoding_type
 /*
  *Decoder functions
  */
-encoding_type ToDefCode   (char* symbol);//Don't realized
-encoding      ToValueCode (char* symbol);//Don't realized
+encoding_type ToDefCode   (char* symbol);//Don't realized===============================================================
+encoding      ToValueCode (char* symbol);//Don't realized===============================================================
 
-char* ToStrFromCode (encoding_type define , encoding value);//Don't realized
+char* ToStrFromCode (encoding_type define , encoding value);//Don't realized============================================
 
 
 

@@ -32,6 +32,8 @@ public:
 
     Node* AddNodeRight (value_type value = NULL , definision def = NULL);
     Node* AddNodeLeft  (value_type value = NULL , definision def = NULL);
+
+    Node* DiffeNode();
 };
 
 
@@ -40,18 +42,20 @@ public:
 //TREE
 class Tree
 {
-public:
+private:
     Node* _head = NULL;
 
-
+public:
     Tree(value_type , definision);
     ~Tree();
 
     //Conventional
-    bool  StrToTree (char* funcStr);//Don't realized
-    char* TreeToStr ();//Don't realized
+    bool  StrToTree (char* funcStr);//Don't realized====================================================================
+    char* TreeToStr ();//Don't realized=================================================================================
 
-    Tree* Differentiator(); //Don't realized
+
+    //Main function
+    Tree* Differentiator(); //Don't realized============================================================================
 };
 
 #endif //TREE_TREELIB_H
