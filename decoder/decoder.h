@@ -127,9 +127,9 @@ enum  encoding_type
     code(0xfffffff2 , CONSTANT),
 };
 
-/*
- *Decoder functions
- */
+//===============================================
+//Decoder functions
+
 encoding_type ToDefCode   (char* symbol);//Don't realized===============================================================
 encoding      ToValueCode (char* symbol);//Don't realized===============================================================
 
