@@ -32,7 +32,7 @@ char* Tree::TreeToStr ()//Don't realized========================================
 //Main function
 Tree* Tree::Differentiator()//Don't realized==================================================================================
 {
-    _head = _head->DiffeNode();
+    _head = _head->DiffNode();
 
     return this;
 }

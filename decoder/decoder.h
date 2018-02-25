@@ -3,7 +3,6 @@
 
 #define code(x , y) y=x
 
-
 /**============================================================================
   * using in Node (look TreeLib.h)
   * for fast analyze Node
