@@ -11,10 +11,10 @@
 enum encoding
 {
     //FUNCTIONS
-    code(0xffffff01 , "+"),
-    code(0xffffff02 , -),
-    code(0xffffff03 , "*"),
-    code(0xffffff04 , "/"),
+    code(0xffffff01 , add),
+    code(0xffffff02 , sub),
+    code(0xffffff03 , mul),
+    code(0xffffff04 , div),
     code(0xffffff05 , cos),
     code(0xffffff06 , sin),
     code(0xffffff07 , tg),
@@ -27,7 +27,7 @@ enum encoding
     code(0xffffff0e , log),
     code(0xffffff0f , ln),
     code(0xffffff10 , lg),
-    code(0xffffff11 , ^),
+    code(0xffffff11 , pow),
 
     // VARIABLE
     code(0xfffffd01 , a),
@@ -67,13 +67,12 @@ enum  encoding_type
 {
     code(0xfffffff0 , VARIABLE),
     code(0xfffffff1 , FUNCTION),
-    code(0xfffffff2 , CONST),
+    code(0xfffffff2 , CONSTANT),
 };
 
 /*
  *Decoder functions
  */
-
 encoding_type ToDefCode   (char* symbol);//Don't realized
 encoding      ToValueCode (char* symbol);//Don't realized
 

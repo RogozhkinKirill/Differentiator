@@ -4,9 +4,12 @@ project(Diff)
 set(CMAKE_CXX_STANDARD 17)
 
 add_executable(Differentiator main.cpp
-        TreeLib/TreeLib.cpp
+        TreeLib/Node.cpp
+        TreeLib/Tree.cpp
         TreeLib/TreeLib.h
+
         decoder/decoder.cpp
         decoder/decoder.h
+
         Differentiator/Differentiator.cpp
-        Differentiator/Differentiator.h)
+        Differentiator/Differentiator.h )
