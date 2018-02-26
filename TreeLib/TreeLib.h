@@ -31,13 +31,17 @@ private:
 
 public:
     //Constructor and Destructor
-    Node(value_type value = NULL , definision def = NULL);
-    ~Node(bool delete_full); //if  TRUE, delete Node with all branches
+    Node (value_type value = NULL , definision def = NULL);
+    ~Node (bool delete_full); //if  TRUE, delete Node with all branches
 
 
     //Increasing tree function adding new node
     Node* AddNodeRight (value_type value = NULL , definision def = NULL);
     Node* AddNodeLeft  (value_type value = NULL , definision def = NULL);
+
+    //Copy functions
+    //Fully copy all Nodes from donor Node to current
+    Node* CopyNode (Node* );//Don't realized============================================================================
 
     //Diffintiator functions
 
@@ -50,16 +54,16 @@ public:
     //In all function below return pointer on top Node
 
     //Realized rule 1)Sum
-    Node* DiffSum();//Don't realized====================================================================================
+    Node* DiffSum();
 
     //Realized rule 2)Multiplication
-    Node* DiffMul();//Don't realized====================================================================================
+    Node* DiffMul();
 
     //Realized rule 3)Divide
-    Node* DiffDiv();//Don't realized====================================================================================
+    Node* DiffDiv();
 
     //Realized rule 4)Power
-    Node* DiffPow();//Don't realized====================================================================================
+    Node* DiffPow();
 
     //Diff. trig. function
     Node* DiffTrig();//Don't realized===================================================================================
