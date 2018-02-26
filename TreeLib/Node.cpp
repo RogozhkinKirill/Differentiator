@@ -388,7 +388,7 @@ Node* Node::DiffPow()
     thirdLeftRightRight->DiffNode();
 }
 
-}
+
 
 //Diff. trig. function
 Node* Node::DiffTrig();//Don't realized=================================================================================
