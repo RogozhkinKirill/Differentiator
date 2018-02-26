@@ -312,6 +312,10 @@ Node* Node::DiffDiv()
 //Realized rule 4)Power
 Node* Node::DiffPow()
 {
+    //Change FUNCTION in this Node from ^ to *
+    _value = mul;
+
+
     //Create Nodes of first level
     Node* firstLeft = new Node (sub , FUNCTION);
     firstLeft->_parent = this;
@@ -388,13 +392,69 @@ Node* Node::DiffPow()
     thirdLeftRightRight->DiffNode();
 }
 
-
-
 //Diff. trig. function
-Node* Node::DiffTrig();//Don't realized=================================================================================
+Node* Node::DiffTrig()//Realized partly
+{
+    switch (_value)
+    {
+
+        case cos:
+        {
+            //Change FUNCTION in this Node from FUNCTION to *
+            _value = mul;
+
+            //Create first level
+            Node *firstRight = new Node(sin, FUNCTION);
+            firstRight->_parent = this;
+            firstRight->_left = _left;
+
+            Node *firstLeft = new Node(minus, FUNCTION);
+            firstLeft->_parent = this;
+            _left = firstLeft;
+
+            //Diff.
+            firstRight->_left->DiffNode();
+        }
+            break;
+
+        case sin:
+        {
+            //Change FUNCTION in this Node from FUNCTION to *
+            _value = cos;
+
+            //Diff.
+            _left->DiffNode();
+        }
+            break;
+
+        case sh:
+        {
+            //Change FUNCTION in this Node from FUNCTION to *
+            _value = ch;
+
+            //Diff.
+            _left->DiffNode();
+        }
+            break;
+
+        case ch:
+        {
+            //Change FUNCTION in this Node from FUNCTION to *
+            _value = sh;
+
+            //Diff.
+            _left->DiffNode();
+        }
+            break;
+    }
+}
 
 //Diff. logarithm
 Node* Node::DiffLog();//Don't realized==================================================================================
 
 //Diff. exp
-Node* Node::DiffExp();//Don't realized==================================================================================
+Node* Node::DiffExp()
+{
+    //Diff.
+    _left->DiffNode();
+}
