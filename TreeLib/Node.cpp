@@ -184,6 +184,7 @@ Node* Node::DiffNode()
                     case LOG: {
                         DiffLog();
                     };
+                    default:break;
                 }
             };
                 break;
@@ -625,6 +626,8 @@ Node* Node::DiffTrig()
                 //Diff.
                 secondLeftRight->DiffNode();
             }
+                break;
+            default:break;
         }
     }
     else return NULL;
@@ -633,8 +636,27 @@ Node* Node::DiffTrig()
 //Diff. logarithm
 Node* Node::DiffLog()//Don't realized===================================================================================
 {
+    if (this)
+    {
+        switch (_value)
+        {
+            case LG:
+            case LN:
+            {
 
+            }
+                break;
 
+            case LOG:
+            {
+
+            }
+                break;
+
+            default:break;
+        }
+    }
+    else return NULL;
 }
 
 //Diff. exp
