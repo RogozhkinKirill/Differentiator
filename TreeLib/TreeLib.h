@@ -29,26 +29,10 @@ private:
     value_type _value  = NULL;
     definision _define = NULL;
 
-public:
-    //Constructor and Destructor
-    Node (value_type value = NULL , definision def = NULL);
-    ~Node (bool delete_full); //if  TRUE, delete Node with all branches
-
-
-    //Increasing tree function adding new node
-    Node* AddNodeRight (value_type value = NULL , definision def = NULL);
-    Node* AddNodeLeft  (value_type value = NULL , definision def = NULL);
 
     //Copy functions
     //Fully copy all Nodes from donor Node to current
-    Node* CopyNode (Node* );//Don't realized============================================================================
-
-    //Diffintiator functions
-
-    /*
-     * Differentiate node using differentiation rules
-     */
-    Node* DiffNode();
+    Node* CopyNode (Node* donor);
 
 
     //In all function below return pointer on top Node
@@ -66,13 +50,30 @@ public:
     Node* DiffPow();
 
     //Diff. trig. function
-    Node* DiffTrig();//Don't realized===================================================================================
+    Node* DiffTrig();
 
     //Diff. logarithm
     Node* DiffLog();//Don't realized====================================================================================
 
     //Diff. exp
     Node* DiffExp();
+
+public:
+    //Constructor and Destructor
+    Node (value_type value = NULL , definision def = NULL);
+    ~Node (bool delete_full); //if  TRUE, delete Node with all branches
+
+
+    //Increasing tree function adding new node
+    Node* AddNodeRight (value_type value = NULL , definision def = NULL);
+    Node* AddNodeLeft  (value_type value = NULL , definision def = NULL);
+
+
+    /*
+     * Differentiate node using differentiation rules
+     */
+    Node* DiffNode();
+
 };
 
 
