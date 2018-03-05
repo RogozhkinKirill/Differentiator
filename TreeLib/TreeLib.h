@@ -2,6 +2,8 @@
 #define TREE_TREELIB_H
 
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
 #include "../decoder/decoder.h"
 
@@ -21,13 +23,14 @@ typedef encoding_type definision;
 //NODE
 class Node
 {
-private:
+//private
+public:
     Node* _right = NULL;
     Node* _left  = NULL;
     Node* _parent  = NULL;
 
-    value_type _value  = NULL;
-    definision _define = NULL;
+    value_type _value  = 0;
+    definision _define;
 
 
     //Copy functions
@@ -58,21 +61,27 @@ private:
     //Diff. exp
     Node* DiffExp();
 
+    bool PrintFunc (char*);
+    bool PrintVar  (char*);
+
 public:
     //Constructor and Destructor
-    Node (value_type value = NULL , definision def = NULL);
-    ~Node (bool delete_full); //if  TRUE, delete Node with all branches
+    Node (value_type value , definision def );
+    ~Node(); //if  TRUE, delete Node with all branches
 
 
     //Increasing tree function adding new node
-    Node* AddNodeRight (value_type value = NULL , definision def = NULL);
-    Node* AddNodeLeft  (value_type value = NULL , definision def = NULL);
+    Node* AddNodeRight (value_type value , definision def );
+    Node* AddNodeLeft  (value_type value , definision def );
 
 
     /*
      * Differentiate node using differentiation rules
      */
     Node* DiffNode();
+
+    //Print Node and call PrintNode to branches
+    bool PrintNode(char*);
 
 };
 
@@ -81,7 +90,8 @@ public:
 //TREE
 class Tree
 {
-private:
+//private
+public:
     Node* _head = NULL;
 
 public:
@@ -90,7 +100,7 @@ public:
 
     //Conventional
     bool  StrToTree (char* funcStr);//Don't realized====================================================================
-    char* TreeToStr ();//Don't realized=================================================================================
+    char* TreeToStr (char* res);//Don't realized=================================================================================
 
 
     //Main functions

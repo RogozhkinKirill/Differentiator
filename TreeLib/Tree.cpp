@@ -23,10 +23,14 @@ Tree::~Tree()
 //Functions
 
 bool  Tree::StrToTree (char* funcStr)//Don't realized=========================================================================
-{}
+{
 
-char* Tree::TreeToStr ()//Don't realized======================================================================================
-{}
+}
+
+char* Tree::TreeToStr (char* res)//Don't realized======================================================================================
+{
+    this ? _head->PrintNode(res) : printf("ERROR. Pointer on Tree = NULL\n");
+}
 
 
 //Main function

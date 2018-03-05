@@ -8,8 +8,8 @@ char* Differentiator()//Don't realized==========================================
 {
     //Initialization
     bool resAns = 0;
-    Tree* function = new Tree( NULL , NULL);
-
+    Tree* function = new Tree( MUL , FUNCTION);
+/*
     //Scan function
     while (resAns == FALSE)
     {
@@ -32,16 +32,31 @@ char* Differentiator()//Don't realized==========================================
         else if (funcStr == "NULL")
             return 0;
     }
+*/
+
+    function->_head->_left  = new Node (x , VARIABLE);
+    function->_head->_right = new Node (MUL , FUNCTION);
 
 
+    Node* left  = new Node (x , VARIABLE);
+    left->_parent = function->_head->_right;
+    function->_head->_right->_left = left;
 
+    Node* right = new Node (x , VARIABLE);
+    right->_parent = function->_head->_right;
+    function->_head->_right->_right = right;
+
+    char ress[1000] = {0};
+    function->TreeToStr(ress);
+    printf ("%s\n" , ress);
     Tree* resDiff = function->Differentiator();//Don't realized=========================================================
 
-    char* res = resDiff->TreeToStr();//Don't realized===================================================================
+    char res[1000] = {0};
+    resDiff->TreeToStr(res);//Don't realized===================================================================
 
     printf ("%s" , res);
 
-    return resDiff->TreeToStr();//Don't realized
+    return res;//Don't realized
 }
 
 

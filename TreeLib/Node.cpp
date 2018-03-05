@@ -1,15 +1,23 @@
 #include <afxres.h>
 #include "TreeLib.h"
 
+#define CASE(x , y) case y: {strcat (x , #y);} break;
+
 //===============================================
 //Node functions
 
 
 //-----------------------------------------------
 //Constructor
-Node::Node(value_type value = NULL , definision def = NULL)
+Node::Node(value_type value , definision def)
 {
-    printf ("Constuctor called: Node\n");
+    char smt[10] = {0};
+    if (def == FUNCTION)
+        strcat(smt , "fun");
+    if (def == VARIABLE)
+        strcat(smt , "var");
+
+    printf ("Constuctor called: Node define = %s\n" , smt);
     this->_left   = this->_right = this->_parent = NULL;
     this->_value  = value;
     this->_define = def;
@@ -17,20 +25,19 @@ Node::Node(value_type value = NULL , definision def = NULL)
 
 //-----------------------------------------------
 //Destructor
-Node::~Node(bool delete_full)
+Node::~Node()
 {
     printf ("Destructor called: Node\n");
 
-    if (delete_full == TRUE)
-    {
-        if (this->_right)
-            delete this->_right;
 
-        if (this->_left)
-            delete this->_left;
-    }
+    if (this->_right)
+        delete this->_right;
 
-    this->_value = NULL;
+    if (this->_left)
+        delete this->_left;
+
+
+    this->_value = 0;
 }
 
 //-----------------------------------------------
@@ -100,11 +107,17 @@ Node* Node::CopyNode (Node* donor)
         _value  = donor->_value;
         _define = donor->_define;
 
-        if (_right)
+        if (donor->_right)
+        {
+            _right = new Node (donor->_right->_value , donor->_right->_define);
             _right->CopyNode(donor->_right);
+        }
 
-        if (_left)
-             _left->CopyNode(donor->_left);
+        if (donor->_left)
+        {
+            _left = new Node (donor->_left->_value , donor->_left->_define);
+            _left->CopyNode(donor->_left);
+        }
     }
     else
         return NULL;
@@ -255,32 +268,33 @@ Node* Node::DiffMul()
         //
         //New will be differentiate
 
-        //To firstLeft
-        Node *secondLeftLeft = new Node(_right->_value, _right->_define);
+        //Create second level
+        Node* secondLeftLeft = new Node(_left->_value, _left->_define);
         secondLeftLeft->CopyNode(_left);
         secondLeftLeft->_parent = firstLeft;
-        firstLeft->_right = secondLeftLeft;
+        firstLeft->_left = secondLeftLeft;
 
-        //To firstRight
-        Node *secondRightRight = new Node(_left->_value, _left->_define);
+        Node* secondRightRight = new Node(_right->_value, _right->_define);
         secondRightRight->CopyNode(_right);
         secondRightRight->_parent = firstRight;
-        firstRight->_left = secondRightRight;
+        firstRight->_right = secondRightRight;
 
 
         //Reconnect parent's children nodes with new Nodes
         _right->_parent = firstLeft;
-        firstLeft->_left = _right;
+        firstLeft->_right = _right;
 
         _left->_parent = firstRight;
-        firstRight->_right = _left;
+        firstRight->_left = _left;
 
 
         _right = firstRight;
         _left = firstLeft;
 
         //Diff. firstLeft/Right
+        printf ("Diff left Node\n");
         secondLeftLeft->DiffNode();
+        printf ("Diff right Node\n");
         secondRightRight->DiffNode();
 
         return this;
@@ -318,7 +332,7 @@ Node* Node::DiffDiv()
 
         Node *secondRightRight = new Node(_right->_value, _right->_define);
         secondRightRight->_parent = firstRight;
-        firstRight->_left = secondRightRight;
+        firstRight->_right = secondRightRight;
         secondRightRight->CopyNode(_right);
 
         //Create Nodes of third level
@@ -359,7 +373,7 @@ Node* Node::DiffPow()
 
 
         //Create Nodes of first level
-        Node *firstLeft = new Node(SUB, FUNCTION);
+        Node *firstLeft = new Node(ADD, FUNCTION);
         firstLeft->_parent = this;
 
         Node *firstRight = new Node(POW, FUNCTION);
@@ -383,7 +397,7 @@ Node* Node::DiffPow()
 
         Node *secondRightRight = new Node(_right->_value, _right->_define);
         secondRightRight->_parent = firstRight;
-        firstRight->_left = secondRightRight;
+        firstRight->_right = secondRightRight;
         secondRightRight->CopyNode(_right);
 
 
@@ -446,43 +460,122 @@ Node* Node::DiffTrig()
                 _value = MUL;
 
                 //Create first level
-                Node *firstRight = new Node(SIN, FUNCTION);
+                Node *firstRight = new Node (MUL, FUNCTION);
                 firstRight->_parent = this;
-                firstRight->_left = _left;
+                _right = firstRight;
 
-                Node *firstLeft = new Node(-1, CONSTANT);
+                Node *firstLeft = new Node (-1, CONSTANT);
                 firstLeft->_parent = this;
+
+
+                //Create second level
+                Node *secondRightRight = new Node (_left->_value , _left->_define);
+                firstRight->_right = secondRightRight;
+                secondRightRight->_parent = firstRight;
+
+                Node* secondRightLeft = new Node (SIN , FUNCTION);
+                firstRight->_left = secondRightLeft;
+                secondRightLeft->_parent = firstRight;
+
+                //Create third level and reconnect
+                secondRightLeft->_left = _left;
                 _left = firstLeft;
 
                 //Diff.
-                firstRight->_left->DiffNode();
+                secondRightRight->DiffNode();
             }
                 break;
 
             case SIN: {
                 //Change FUNCTION in this Node from FUNCTION to *
-                _value = COS;
+                _value = MUL;
+
+                //Create first level
+                Node *firstRight = new Node (MUL, FUNCTION);
+                firstRight->_parent = this;
+                _right = firstRight;
+
+                Node *firstLeft = new Node (1, CONSTANT);
+                firstLeft->_parent = this;
+
+
+                //Create second level
+                Node *secondRightRight = new Node (_left->_value , _left->_define);
+                firstRight->_right = secondRightRight;
+                secondRightRight->_parent = firstRight;
+
+                Node* secondRightLeft = new Node (COS , FUNCTION);
+                firstRight->_left = secondRightLeft;
+                secondRightLeft->_parent = firstRight;
+
+                //Create third level and reconnect
+                secondRightLeft->_left = _left;
+                _left = firstLeft;
 
                 //Diff.
-                _left->DiffNode();
+                secondRightRight->DiffNode();
             }
                 break;
 
             case SH: {
                 //Change FUNCTION in this Node from FUNCTION to *
-                _value = CH;
+                _value = MUL;
+
+                //Create first level
+                Node *firstRight = new Node (MUL, FUNCTION);
+                firstRight->_parent = this;
+                _right = firstRight;
+
+                Node *firstLeft = new Node (1, CONSTANT);
+                firstLeft->_parent = this;
+
+
+                //Create second level
+                Node *secondRightRight = new Node (_left->_value , _left->_define);
+                firstRight->_right = secondRightRight;
+                secondRightRight->_parent = firstRight;
+
+                Node* secondRightLeft = new Node (CH , FUNCTION);
+                firstRight->_left = secondRightLeft;
+                secondRightLeft->_parent = firstRight;
+
+                //Create third level and reconnect
+                secondRightLeft->_left = _left;
+                _left = firstLeft;
 
                 //Diff.
-                _left->DiffNode();
+                secondRightRight->DiffNode();
             }
                 break;
 
             case CH: {
                 //Change FUNCTION in this Node from FUNCTION to *
-                _value = SH;
+                _value = MUL;
+
+                //Create first level
+                Node *firstRight = new Node (MUL, FUNCTION);
+                firstRight->_parent = this;
+                _right = firstRight;
+
+                Node *firstLeft = new Node (1, CONSTANT);
+                firstLeft->_parent = this;
+
+
+                //Create second level
+                Node *secondRightRight = new Node (_left->_value , _left->_define);
+                firstRight->_right = secondRightRight;
+                secondRightRight->_parent = firstRight;
+
+                Node* secondRightLeft = new Node (SH , FUNCTION);
+                firstRight->_left = secondRightLeft;
+                secondRightLeft->_parent = firstRight;
+
+                //Create third level and reconnect
+                secondRightLeft->_left = _left;
+                _left = firstLeft;
 
                 //Diff.
-                _left->DiffNode();
+                secondRightRight->DiffNode();
             }
                 break;
 
@@ -664,8 +757,352 @@ Node* Node::DiffExp()
 {
     if (this)
     {
+        _value = MUL;
+
+        //Create first level
+        Node* firstRight = new Node (EXP , FUNCTION);
+        _right = firstRight;
+        firstRight->_parent = this;
+
+        //Create second level
+        Node* secondRightLeft = new Node (_left->_value , _left->_define);
+        secondRightLeft->_parent = firstRight;
+        firstRight->_left = secondRightLeft;
+        secondRightLeft->CopyNode(_left);
+
         //Diff.
         _left->DiffNode();
     }
     else return NULL;
+}
+
+
+//Print Node and call PrintNode to branches
+bool Node::PrintNode(char* res)
+{
+    if (this)
+    {
+        switch (_define)
+        {
+            case FUNCTION:
+            {
+                PrintFunc (res);//function below this
+            }
+                break;
+
+            case VARIABLE:
+            {
+                PrintVar (res);//function below PrintFunc
+            }
+                break;
+
+            case CONSTANT:
+
+            default:
+            {
+                char num[13] = {0};
+                strcat (res , itoa (_value , num , 10));
+            }
+        }
+    }
+    else
+    {
+        printf ("ERROR Pointer on Node in Node::PrintNode = Null\n");
+        return 0;
+    }
+
+    return 0;
+}
+
+bool Node::PrintFunc (char* res)
+{
+    switch (_value)
+    {
+        case COS:
+        {
+            strcat (res , "cos(");
+            _left->PrintNode(res);
+            strcat (res , ")");
+        }
+            break;
+
+        case SIN:
+        {
+            strcat (res , "sin(");
+            _left->PrintNode(res);
+            strcat (res , ")");
+        }
+            break;
+
+        case TG:
+        {
+            strcat (res , "tg(");
+            _left->PrintNode(res);
+            strcat (res , ")");
+        }
+            break;
+
+        case CTG:
+        {
+            strcat (res , "ctg(");
+            _left->PrintNode(res);
+            strcat (res , ")");
+        }
+            break;
+
+        case SH:
+        {
+            strcat (res , "sh(");
+            _left->PrintNode(res);
+            strcat (res , ")");
+        }
+            break;
+
+        case CH:
+        {
+            strcat (res , "ch(");
+            _left->PrintNode(res);
+            strcat (res , ")");
+        }
+            break;
+
+        case TH:
+        {
+            strcat (res , "th(");
+            _left->PrintNode(res);
+            strcat (res , ")");
+        }
+            break;
+
+        case CTH:
+        {
+            strcat (res , "sin(");
+            _left->PrintNode(res);
+            strcat (res , ")");
+        }
+            break;
+
+        case EXP:
+        {
+            strcat (res , "exp(");
+            _left->PrintNode(res);
+            strcat (res , ")");
+        }
+            break;
+
+        case LN:
+        {
+            strcat (res , "ln(");
+            _left->PrintNode(res);
+            strcat (res , ")");
+        }
+            break;
+
+        case LG:
+        {
+            strcat (res , "lg(");
+            _left->PrintNode(res);
+            strcat (res , ")");
+        }
+            break;
+
+        case ADD:
+        {
+            strcat (res , "(");
+            _left->PrintNode (res);
+            strcat (res , "+");
+            _right->PrintNode (res);
+            strcat (res , ")");
+        }
+            break;
+
+        case SUB:
+        {
+            if (_left->_value != -1 &&
+                    _right->_value != -1 &&
+                    _left->_value  != 1 &&
+                    _right->_value != 1)
+            {
+                strcat(res, "(");
+                _left->PrintNode(res);
+                strcat(res, "-");
+                _right->PrintNode(res);
+                strcat(res, ")");
+            }
+            else if (_left->_value == -1 &&
+                     _right->_value != -1 &&
+                     _left->_value  != 1 &&
+                     _right->_value != 1)
+            {
+                strcat(res , "(-");
+                _right->PrintNode(res);
+                strcat(res , ")");
+            }
+            else if (_left->_value != -1 &&
+                    _right->_value == -1 &&
+                    _left->_value  != 1 &&
+                    _right->_value != 1)
+            {
+                strcat(res , "(-");
+                _left->PrintNode(res);
+                strcat(res , ")");
+            }
+            else if (_left->_value != -1 &&
+                  _right->_value != -1 &&
+                  _left->_value  == 1 &&
+                  _right->_value != 1)
+                _right->PrintNode(res);
+            else if(_left->_value != -1 &&
+                    _right->_value != -1 &&
+                    _left->_value  != 1 &&
+                    _right->_value == 1)
+                _left->PrintNode(res);
+        }
+            break;
+
+        case MUL:
+        {
+            if (_left->_value != -1 &&
+                _right->_value != -1 &&
+                _left->_value  != 1 &&
+                _right->_value != 1)
+            {
+                strcat(res, "(");
+                _left->PrintNode(res);
+                strcat(res, "*");
+                _right->PrintNode(res);
+                strcat(res, ")");
+            }
+            else if (_left->_value == -1 &&
+                     _right->_value != -1 &&
+                     _left->_value  != 1 &&
+                     _right->_value != 1)
+            {
+                strcat(res , "(-");
+                _right->PrintNode(res);
+                strcat(res , ")");
+            }
+            else if (_left->_value != -1 &&
+                     _right->_value == -1 &&
+                     _left->_value  != 1 &&
+                     _right->_value != 1)
+            {
+                strcat(res , "(-");
+                _left->PrintNode(res);
+                strcat(res , ")");
+            }
+            else if (_left->_value != -1 &&
+                     _right->_value != -1 &&
+                     _left->_value  == 1 &&
+                     _right->_value != 1)
+                _right->PrintNode(res);
+            else if(_left->_value != -1 &&
+                    _right->_value != -1 &&
+                    _left->_value  != 1 &&
+                    _right->_value == 1)
+                _left->PrintNode(res);
+        }
+            break;
+
+        case DIV:
+        {
+            if (_left->_value != -1 &&
+                _right->_value != -1 &&
+                _left->_value  != 1 &&
+                _right->_value != 1)
+            {
+                strcat(res, "(");
+                _left->PrintNode(res);
+                strcat(res, "/");
+                _right->PrintNode(res);
+                strcat(res, ")");
+            }
+            else if (_left->_value == -1 &&
+                     _right->_value != -1 &&
+                     _left->_value  != 1 &&
+                     _right->_value != 1)
+            {
+                strcat(res , "(-1/");
+                _right->PrintNode(res);
+                strcat(res , ")");
+            }
+            else if (_left->_value != -1 &&
+                     _right->_value == -1 &&
+                     _left->_value  != 1 &&
+                     _right->_value != 1)
+            {
+                strcat(res , "(-");
+                _left->PrintNode(res);
+                strcat(res , ")");
+            }
+            else if (_left->_value != -1 &&
+                     _right->_value != -1 &&
+                     _left->_value  == 1 &&
+                     _right->_value != 1)
+                _right->PrintNode(res);
+            else if(_left->_value != -1 &&
+                    _right->_value != -1 &&
+                    _left->_value  != 1 &&
+                    _right->_value == 1)
+                _left->PrintNode(res);
+        }
+            break;
+
+        case LOG:
+        {
+            strcat (res , "log(");
+            _left->PrintNode (res);
+            strcat (res , ",");
+            _right->PrintNode (res);
+            strcat (res , ")");
+        }
+            break;
+
+        case POW:
+        {
+            strcat (res , "((");
+            _left->PrintNode (res);
+            strcat (res , ")^(");
+            _right->PrintNode (res);
+            strcat (res , "))");
+        }
+            break;
+    }
+
+    return TRUE;
+}
+
+bool Node::PrintVar (char* res)
+    {
+    switch (_value)
+    {
+        CASE(res , a);
+        CASE(res , b);
+        CASE(res , c);
+        CASE(res , d);
+        CASE(res , e);
+        CASE(res , f);
+        CASE(res , g);
+        CASE(res , h);
+        CASE(res , j);
+        CASE(res , i);
+        CASE(res , k);
+        CASE(res , l);
+        CASE(res , m);
+        CASE(res , n);
+        CASE(res , o);
+        CASE(res , p);
+        CASE(res , q);
+        CASE(res , r);
+        CASE(res , s);
+        CASE(res , t);
+        CASE(res , u);
+        CASE(res , v);
+        CASE(res , w);
+        CASE(res , x);
+        CASE(res , y);
+        CASE(res , z);
+    }
+
+    return TRUE;
 }
