@@ -734,9 +734,45 @@ Node* Node::DiffLog()//Don't realized===========================================
         switch (_value)
         {
             case LG:
+            {
+                _value = DIV;
+
+                //Create first level
+                Node* firstRight = new Node (MUL , FUNCTION);
+                firstRight->_parent = this;
+
+                //Create second level
+                Node* secondRightLeft = new Node (LN , FUNCTION);
+                secondRightLeft->_parent = firstRight;
+                firstRight->_left = secondRightLeft;
+
+                Node* secondRightRight = new Node (_left->_value , _left->_define);
+                secondRightRight->_parent = firstRight;
+                firstRight->_right = secondRightRight;
+                secondRightRight->CopyNode(_left);
+
+                //Create third level
+                Node* thirdRightLeftLeft = new Node (10 , CONSTANT);
+                thirdRightLeftLeft->_parent = secondRightLeft;
+                secondRightLeft->_left = thirdRightLeftLeft;
+
+                //Diff.
+                _left->DiffNode();
+            }
+                break;
+
             case LN:
             {
+                _value = DIV;
 
+                //Create first level
+                Node* firstRight = new Node (_left->_value , _left->_define);
+                _right = firstRight;
+                firstRight->_parent = this;
+                firstRight->CopyNode(_left);
+
+                //Diff.
+                _left->DiffNode();
             }
                 break;
 
@@ -1039,7 +1075,11 @@ bool Node::PrintFunc (char* res)
                      _right->_value != -1 &&
                      _left->_value  == 1 &&
                      _right->_value != 1)
+            {
+                strcat (res , "1/(");
                 _right->PrintNode(res);
+                strcat (res , ")");
+            }
             else if(_left->_value != -1 &&
                     _right->_value != -1 &&
                     _left->_value  != 1 &&

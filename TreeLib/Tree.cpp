@@ -15,6 +15,7 @@ Tree::Tree(value_type value , definision def)
 //Destructor
 Tree::~Tree()
 {
+    printf ("Destrictor Tree called\n");
     if(this->_head)
         delete this->_head;
 }
