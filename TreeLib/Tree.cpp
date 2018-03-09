@@ -8,6 +8,7 @@
 //Constructor
 Tree::Tree(value_type value , definision def)
 {
+    printf ("Constructor Tree called\n");
     this->_head = new Node(value , def);
 }
 

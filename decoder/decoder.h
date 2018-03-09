@@ -123,9 +123,10 @@ code(0x0ffffd1a , z);
  */
 enum  encoding_type
 {
-    code_definition(0x0ffffff0 , VARIABLE),
-    code_definition(0x0ffffff1 , FUNCTION),
-    code_definition(0x0ffffff2 , CONSTANT),
+    code_definition(0x00000001 , VARIABLE),
+    code_definition(0x00000002 , FUNCTION),
+    code_definition(0x00000003 , CONSTANT),
+    code_definition(0x00000000 , NLL),
 };
 
 //===============================================

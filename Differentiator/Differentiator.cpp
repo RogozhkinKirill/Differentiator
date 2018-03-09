@@ -1,41 +1,24 @@
 #include <afxres.h>
 
 #include "Differentiator.h"
-
+#include "../RecursiveDescentParser/RDP.h"
 
 
 char* Differentiator()//Don't realized==================================================================================
 {
     //Initialization
     bool resAns = 0;
-    Tree* function = new Tree( LN , FUNCTION);
-/*
+    Tree* function = new Tree( MUL , FUNCTION);
+
     //Scan function
-    while (resAns == FALSE)
-    {
-        printf ("Print function or info for more information(free string to escape)\n");
+    RDP* parser = new RDP();
+    function = parser->StrToTree();
 
-        char* funcStr = 0;
-        scanf ("%s\n" , &funcStr);
 
-        if (funcStr == "info")
-            GetInfo(); //Don't realized=================================================================================
-        else if (funcStr != NULL)
-        {
-            bool res = CheckCorrect (funcStr); //Don't realized=========================================================
-            if (res == TRUE)
-            {
-                function->StrToTree (funcStr); //Don't realized=========================================================
-                resAns = TRUE;
-            }
-        }
-        else if (funcStr == "NULL")
-            return 0;
-    }
-*/
 
-    function->_head->_left  = new Node (x , VARIABLE);
-  /*  function->_head->_right = new Node (MUL , FUNCTION);
+
+    /*function->_head->_left  = new Node (x , VARIABLE);
+    function->_head->_right = new Node (MUL , FUNCTION);
 
 
     Node* left  = new Node (x , VARIABLE);
@@ -48,7 +31,7 @@ char* Differentiator()//Don't realized==========================================
 */
     char ress[1000] = {0};
     function->TreeToStr(ress);
-    printf ("%s\n" , ress);
+    printf ("\n%s\n\n" , ress);
     Tree* resDiff = function->Differentiator();//Don't realized=========================================================
 
     char res[1000] = {0};

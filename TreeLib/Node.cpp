@@ -1,6 +1,5 @@
 #include <afxres.h>
 #include "TreeLib.h"
-
 #define CASE(x , y) case y: {strcat (x , #y);} break;
 
 //===============================================
@@ -9,6 +8,14 @@
 
 //-----------------------------------------------
 //Constructor
+Node::Node()
+{
+    printf ("Simple Constructor called\n");
+    _define = NLL;
+    _value = 0;
+    _parent = _left = _right = NULL;
+}
+
 Node::Node(value_type value , definision def)
 {
     char smt[10] = {0};
@@ -212,6 +219,7 @@ Node* Node::DiffNode()
             {
                 _define = CONSTANT;
                 _value  = 1;
+                printf ("12233\n\n");
             };
                 break;
         }
@@ -234,11 +242,8 @@ Node* Node::DiffSum()
 {
     if (this)
     {
-        if (_right->_define == FUNCTION)
-            _right->DiffNode();
-
-        if (_left->_define == FUNCTION)
-            _left->DiffNode();
+        _right->DiffNode();
+        _left ->DiffNode();
 
         return this;
     }
@@ -813,6 +818,8 @@ Node* Node::DiffExp()
 }
 
 
+
+
 //Print Node and call PrintNode to branches
 bool Node::PrintNode(char* res)
 {
@@ -944,167 +951,37 @@ bool Node::PrintFunc (char* res)
 
         case ADD:
         {
-            strcat (res , "(");
-            _left->PrintNode (res);
-            strcat (res , "+");
-            _right->PrintNode (res);
-            strcat (res , ")");
+            PrintADD (res);
         }
             break;
 
         case SUB:
         {
-            if (_left->_value != -1 &&
-                    _right->_value != -1 &&
-                    _left->_value  != 1 &&
-                    _right->_value != 1)
-            {
-                strcat(res, "(");
-                _left->PrintNode(res);
-                strcat(res, "-");
-                _right->PrintNode(res);
-                strcat(res, ")");
-            }
-            else if (_left->_value == -1 &&
-                     _right->_value != -1 &&
-                     _left->_value  != 1 &&
-                     _right->_value != 1)
-            {
-                strcat(res , "(-");
-                _right->PrintNode(res);
-                strcat(res , ")");
-            }
-            else if (_left->_value != -1 &&
-                    _right->_value == -1 &&
-                    _left->_value  != 1 &&
-                    _right->_value != 1)
-            {
-                strcat(res , "(-");
-                _left->PrintNode(res);
-                strcat(res , ")");
-            }
-            else if (_left->_value != -1 &&
-                  _right->_value != -1 &&
-                  _left->_value  == 1 &&
-                  _right->_value != 1)
-                _right->PrintNode(res);
-            else if(_left->_value != -1 &&
-                    _right->_value != -1 &&
-                    _left->_value  != 1 &&
-                    _right->_value == 1)
-                _left->PrintNode(res);
+            PrintSUB (res);
         }
             break;
 
         case MUL:
         {
-            if (_left->_value != -1 &&
-                _right->_value != -1 &&
-                _left->_value  != 1 &&
-                _right->_value != 1)
-            {
-                strcat(res, "(");
-                _left->PrintNode(res);
-                strcat(res, "*");
-                _right->PrintNode(res);
-                strcat(res, ")");
-            }
-            else if (_left->_value == -1 &&
-                     _right->_value != -1 &&
-                     _left->_value  != 1 &&
-                     _right->_value != 1)
-            {
-                strcat(res , "(-");
-                _right->PrintNode(res);
-                strcat(res , ")");
-            }
-            else if (_left->_value != -1 &&
-                     _right->_value == -1 &&
-                     _left->_value  != 1 &&
-                     _right->_value != 1)
-            {
-                strcat(res , "(-");
-                _left->PrintNode(res);
-                strcat(res , ")");
-            }
-            else if (_left->_value != -1 &&
-                     _right->_value != -1 &&
-                     _left->_value  == 1 &&
-                     _right->_value != 1)
-                _right->PrintNode(res);
-            else if(_left->_value != -1 &&
-                    _right->_value != -1 &&
-                    _left->_value  != 1 &&
-                    _right->_value == 1)
-                _left->PrintNode(res);
+            PrintMUL(res);
         }
             break;
 
         case DIV:
         {
-            if (_left->_value != -1 &&
-                _right->_value != -1 &&
-                _left->_value  != 1 &&
-                _right->_value != 1)
-            {
-                strcat(res, "(");
-                _left->PrintNode(res);
-                strcat(res, "/");
-                _right->PrintNode(res);
-                strcat(res, ")");
-            }
-            else if (_left->_value == -1 &&
-                     _right->_value != -1 &&
-                     _left->_value  != 1 &&
-                     _right->_value != 1)
-            {
-                strcat(res , "(-1/");
-                _right->PrintNode(res);
-                strcat(res , ")");
-            }
-            else if (_left->_value != -1 &&
-                     _right->_value == -1 &&
-                     _left->_value  != 1 &&
-                     _right->_value != 1)
-            {
-                strcat(res , "(-");
-                _left->PrintNode(res);
-                strcat(res , ")");
-            }
-            else if (_left->_value != -1 &&
-                     _right->_value != -1 &&
-                     _left->_value  == 1 &&
-                     _right->_value != 1)
-            {
-                strcat (res , "1/(");
-                _right->PrintNode(res);
-                strcat (res , ")");
-            }
-            else if(_left->_value != -1 &&
-                    _right->_value != -1 &&
-                    _left->_value  != 1 &&
-                    _right->_value == 1)
-                _left->PrintNode(res);
+            PrintDIV (res);
         }
             break;
 
         case LOG:
         {
-            strcat (res , "log(");
-            _left->PrintNode (res);
-            strcat (res , ",");
-            _right->PrintNode (res);
-            strcat (res , ")");
+            PrintLOG (res);
         }
             break;
 
         case POW:
         {
-            strcat (res , "((");
-            _left->PrintNode (res);
-            strcat (res , ")^(");
-            _right->PrintNode (res);
-            strcat (res , "))");
+            PrintPOW (res);
         }
             break;
     }
@@ -1145,4 +1022,113 @@ bool Node::PrintVar (char* res)
     }
 
     return TRUE;
+}
+
+bool Node::PrintMUL (char* res)
+{
+        strcat(res, "(");
+        _left->PrintNode(res);
+        strcat(res, "*");
+        _right->PrintNode(res);
+        strcat(res, ")");
+
+    return TRUE;
+}
+
+bool Node::PrintSUB (char* res)
+{
+    if (_left->_value != -1 &&
+     _right->_value != -1 &&
+     _left->_value  != 1 &&
+     _right->_value != 1)
+    {
+        strcat(res, "(");
+        _left->PrintNode(res);
+        strcat(res, "-");
+        _right->PrintNode(res);
+        strcat(res, ")");
+    }
+    else if (_left->_value == -1 &&
+             _right->_value != -1 &&
+             _left->_value  != 1 &&
+             _right->_value != 1)
+    {
+        strcat(res , "(-");
+        _right->PrintNode(res);
+        strcat(res , ")");
+    }
+    else if (_left->_value != -1 &&
+             _right->_value == -1 &&
+             _left->_value  != 1 &&
+             _right->_value != 1)
+    {
+        strcat(res , "(-");
+        _left->PrintNode(res);
+        strcat(res , ")");
+    }
+    else if (_left->_value != -1 &&
+             _right->_value != -1 &&
+             _left->_value  == 1 &&
+             _right->_value != 1)
+        _right->PrintNode(res);
+    else if(_left->_value != -1 &&
+            _right->_value != -1 &&
+            _left->_value  != 1 &&
+            _right->_value == 1)
+        _left->PrintNode(res);
+}
+
+bool Node::PrintDIV (char* res)
+{
+        strcat(res, "(");
+        _left->PrintNode(res);
+        strcat(res, "/");
+        _right->PrintNode(res);
+        strcat(res, ")");
+}
+
+bool Node::PrintADD (char* res)
+{
+    strcat (res , "(");
+    _left->PrintNode (res);
+    strcat (res , "+");
+    _right->PrintNode (res);
+    strcat (res , ")");
+
+    return 0;
+}
+
+bool Node::PrintPOW (char* res)
+{
+    strcat (res , "((");
+    _left->PrintNode (res);
+    strcat (res , ")^(");
+    _right->PrintNode (res);
+    strcat (res , "))");
+
+    return TRUE;
+}
+
+bool Node::PrintLOG (char* res)
+{
+    strcat (res , "log(");
+    _left->PrintNode (res);
+    strcat (res , ",");
+    _right->PrintNode (res);
+    strcat (res , ")");
+
+    return TRUE;
+}
+
+
+//Check checker Node and his branches
+bool Node::IsEqual (Node* checker)
+{
+    bool res = 0;
+    if (_value == checker->_value && _define == checker->_define)
+    {
+        //if ()
+    }
+
+    return res;
 }

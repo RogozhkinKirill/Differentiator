@@ -12,4 +12,4 @@ add_executable(Differentiator main.cpp
         decoder/decoder.h
 
         Differentiator/Differentiator.cpp
-        Differentiator/Differentiator.h )
+        Differentiator/Differentiator.h RecursiveDescentParser/RDP.cpp RecursiveDescentParser/RDP.h)

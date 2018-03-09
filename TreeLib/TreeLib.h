@@ -61,11 +61,23 @@ public:
     //Diff. exp
     Node* DiffExp();
 
+
+    //Print Tree function for more infomation look PrintTree.cpp
     bool PrintFunc (char*);
     bool PrintVar  (char*);
 
+    bool PrintMUL (char*);
+    bool PrintSUB (char*);
+    bool PrintDIV (char*);
+    bool PrintADD (char*);
+    bool PrintPOW (char*);
+    bool PrintLOG (char*);
+
+    bool IsEqual (Node*);
+
 public:
     //Constructor and Destructor
+    Node();
     Node (value_type value , definision def );
     ~Node(); //if  TRUE, delete Node with all branches
 
@@ -92,9 +104,13 @@ class Tree
 {
 //private
 public:
-    Node* _head = NULL;
+    Node* _head;
 
 public:
+    Tree()
+    {
+        _head = NULL;
+    }
     Tree(value_type , definision);
     ~Tree();
 
