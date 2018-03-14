@@ -1,5 +1,7 @@
 #include <afxres.h>
 #include "TreeLib.h"
+#include "print_tree.h"
+
 #define CASE(x , y) case y: {strcat (x , #y);} break;
 
 //===============================================
@@ -732,7 +734,7 @@ Node* Node::DiffTrig()
 }
 
 //Diff. logarithm
-Node* Node::DiffLog()//Don't realized===================================================================================
+Node* Node::DiffLog()
 {
     if (this)
     {
@@ -783,7 +785,23 @@ Node* Node::DiffLog()//Don't realized===========================================
 
             case LOG:
             {
+                _value = DIV;
 
+                //Create first level
+                Node* firstLeft = new Node (LN , FUNCTION);
+                firstLeft->_left   = _right;
+                firstLeft->_parent = this;
+
+                Node* firstRight = new Node (LN , FUNCTION);
+                firstRight->_left   = _left;
+                firstRight->_parent = this;
+
+                //Reconnect
+                _left  = firstLeft;
+                _right = firstRight;
+
+                //Diff.
+                this->DiffNode();
             }
                 break;
 
@@ -815,309 +833,6 @@ Node* Node::DiffExp()
         _left->DiffNode();
     }
     else return NULL;
-}
-
-
-
-
-//Print Node and call PrintNode to branches
-bool Node::PrintNode(char* res)
-{
-    if (this)
-    {
-        switch (_define)
-        {
-            case FUNCTION:
-            {
-                PrintFunc (res);//function below this
-            }
-                break;
-
-            case VARIABLE:
-            {
-                PrintVar (res);//function below PrintFunc
-            }
-                break;
-
-            case CONSTANT:
-
-            default:
-            {
-                char num[13] = {0};
-                strcat (res , itoa (_value , num , 10));
-            }
-        }
-    }
-    else
-    {
-        printf ("ERROR Pointer on Node in Node::PrintNode = Null\n");
-        return 0;
-    }
-
-    return 0;
-}
-
-bool Node::PrintFunc (char* res)
-{
-    switch (_value)
-    {
-        case COS:
-        {
-            strcat (res , "cos(");
-            _left->PrintNode(res);
-            strcat (res , ")");
-        }
-            break;
-
-        case SIN:
-        {
-            strcat (res , "sin(");
-            _left->PrintNode(res);
-            strcat (res , ")");
-        }
-            break;
-
-        case TG:
-        {
-            strcat (res , "tg(");
-            _left->PrintNode(res);
-            strcat (res , ")");
-        }
-            break;
-
-        case CTG:
-        {
-            strcat (res , "ctg(");
-            _left->PrintNode(res);
-            strcat (res , ")");
-        }
-            break;
-
-        case SH:
-        {
-            strcat (res , "sh(");
-            _left->PrintNode(res);
-            strcat (res , ")");
-        }
-            break;
-
-        case CH:
-        {
-            strcat (res , "ch(");
-            _left->PrintNode(res);
-            strcat (res , ")");
-        }
-            break;
-
-        case TH:
-        {
-            strcat (res , "th(");
-            _left->PrintNode(res);
-            strcat (res , ")");
-        }
-            break;
-
-        case CTH:
-        {
-            strcat (res , "sin(");
-            _left->PrintNode(res);
-            strcat (res , ")");
-        }
-            break;
-
-        case EXP:
-        {
-            strcat (res , "exp(");
-            _left->PrintNode(res);
-            strcat (res , ")");
-        }
-            break;
-
-        case LN:
-        {
-            strcat (res , "ln(");
-            _left->PrintNode(res);
-            strcat (res , ")");
-        }
-            break;
-
-        case LG:
-        {
-            strcat (res , "lg(");
-            _left->PrintNode(res);
-            strcat (res , ")");
-        }
-            break;
-
-        case ADD:
-        {
-            PrintADD (res);
-        }
-            break;
-
-        case SUB:
-        {
-            PrintSUB (res);
-        }
-            break;
-
-        case MUL:
-        {
-            PrintMUL(res);
-        }
-            break;
-
-        case DIV:
-        {
-            PrintDIV (res);
-        }
-            break;
-
-        case LOG:
-        {
-            PrintLOG (res);
-        }
-            break;
-
-        case POW:
-        {
-            PrintPOW (res);
-        }
-            break;
-    }
-
-    return TRUE;
-}
-
-bool Node::PrintVar (char* res)
-    {
-    switch (_value)
-    {
-        CASE(res , a);
-        CASE(res , b);
-        CASE(res , c);
-        CASE(res , d);
-        CASE(res , e);
-        CASE(res , f);
-        CASE(res , g);
-        CASE(res , h);
-        CASE(res , j);
-        CASE(res , i);
-        CASE(res , k);
-        CASE(res , l);
-        CASE(res , m);
-        CASE(res , n);
-        CASE(res , o);
-        CASE(res , p);
-        CASE(res , q);
-        CASE(res , r);
-        CASE(res , s);
-        CASE(res , t);
-        CASE(res , u);
-        CASE(res , v);
-        CASE(res , w);
-        CASE(res , x);
-        CASE(res , y);
-        CASE(res , z);
-    }
-
-    return TRUE;
-}
-
-bool Node::PrintMUL (char* res)
-{
-        strcat(res, "(");
-        _left->PrintNode(res);
-        strcat(res, "*");
-        _right->PrintNode(res);
-        strcat(res, ")");
-
-    return TRUE;
-}
-
-bool Node::PrintSUB (char* res)
-{
-    if (_left->_value != -1 &&
-     _right->_value != -1 &&
-     _left->_value  != 1 &&
-     _right->_value != 1)
-    {
-        strcat(res, "(");
-        _left->PrintNode(res);
-        strcat(res, "-");
-        _right->PrintNode(res);
-        strcat(res, ")");
-    }
-    else if (_left->_value == -1 &&
-             _right->_value != -1 &&
-             _left->_value  != 1 &&
-             _right->_value != 1)
-    {
-        strcat(res , "(-");
-        _right->PrintNode(res);
-        strcat(res , ")");
-    }
-    else if (_left->_value != -1 &&
-             _right->_value == -1 &&
-             _left->_value  != 1 &&
-             _right->_value != 1)
-    {
-        strcat(res , "(-");
-        _left->PrintNode(res);
-        strcat(res , ")");
-    }
-    else if (_left->_value != -1 &&
-             _right->_value != -1 &&
-             _left->_value  == 1 &&
-             _right->_value != 1)
-        _right->PrintNode(res);
-    else if(_left->_value != -1 &&
-            _right->_value != -1 &&
-            _left->_value  != 1 &&
-            _right->_value == 1)
-        _left->PrintNode(res);
-}
-
-bool Node::PrintDIV (char* res)
-{
-        strcat(res, "(");
-        _left->PrintNode(res);
-        strcat(res, "/");
-        _right->PrintNode(res);
-        strcat(res, ")");
-}
-
-bool Node::PrintADD (char* res)
-{
-    strcat (res , "(");
-    _left->PrintNode (res);
-    strcat (res , "+");
-    _right->PrintNode (res);
-    strcat (res , ")");
-
-    return 0;
-}
-
-bool Node::PrintPOW (char* res)
-{
-    strcat (res , "((");
-    _left->PrintNode (res);
-    strcat (res , ")^(");
-    _right->PrintNode (res);
-    strcat (res , "))");
-
-    return TRUE;
-}
-
-bool Node::PrintLOG (char* res)
-{
-    strcat (res , "log(");
-    _left->PrintNode (res);
-    strcat (res , ",");
-    _right->PrintNode (res);
-    strcat (res , ")");
-
-    return TRUE;
 }
 
 

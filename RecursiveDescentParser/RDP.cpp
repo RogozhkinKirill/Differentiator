@@ -7,9 +7,6 @@
 Tree* RDP::StrToTree()
 {
     GetBase();
-
-    printf ("%d %d %d\n" , _tree->_head->_value , _tree->_head->_right->_value , _tree->_head->_left->_value);
-
     return _tree;
 }
 
@@ -209,8 +206,6 @@ Node* RDP::GetNumber()
             node_number->_value *= 10;
             node_number->_value += _function[_ptr] - '0';
             ++_ptr;
-
- //           GetNumber();
         }
 
         if ( _function[_ptr] >= 'a' && _function[_ptr] <= 'z')
@@ -221,91 +216,9 @@ Node* RDP::GetNumber()
             ++_ptr;
         }
     }
-/*
-    if (node_number)
-        AddNode(node_number);
-*/
+
     cout << "Return to P" << endl;
- //   printf ("node_number ptr = 0x%p\n\n" , node_number);
     return node_number;
-}
-
-//Function replace variable and constant
-Node* RDP::AddNode (Node* node  )
-{
-    printf ("Tree 0x%p ,Head 0x%p\nNode 0x%p Define = %d\n_ptr = %d\n\n" ,
-            _tree , _tree->_head , node , node->_define , _ptr);
-/*
-    if (node)
-    {
-        if (node->_value < COS || node->_value > LG)
-        {
-            if (_tree->_head)
-            {
-                if (_tree->_head->_define == FUNCTION)
-                {
-                    if (_tree->_head->_right)
-                    {
-                        node->_left = _tree->_head;
-                        _tree->_head->_parent = node;
-                        _tree->_head = node;
-                        return node;
-                    }
-                    else if (_tree->_head->_left)
-                    {
-                        _tree->_head->_right = node;
-                        node->_parent = _tree->_head;
-                        return node;
-                    }
-                    else
-                    {
-                        _tree->_head->_left = node;
-                        node->_parent = _tree->_head;
-                        return node;
-                    }
-                }
-                else
-                {
-                    node->_left = _tree->_head;
-                    _tree->_head->_parent = node;
-                    _tree->_head = node;
-                    return node;
-                }
-            }
-            else
-            {
-                _tree->_head = node;
-                return node;
-            }
-        }
-        else
-        {
-            if (_tree->_head)
-            {
-                if (_tree->_head->_left)
-                {
-                    node->_left = _tree->_head;
-                    _tree->_head->_parent = node;
-                    return node;
-                }
-                else
-                {
-                    _tree->_head->_left = node;
-                    node->_parent = _tree->_head;
-                    return node;
-                }
-            }
-            else
-            {
-                _tree->_head = node;
-                return node;
-            }
-        }
-    }
-
-    */
-
-    return NULL;
 }
 
 Node* AddLocalHead(Node* added , Node** receiving)

@@ -92,8 +92,6 @@ private:
     Node* GetMUL();
     Node* GetBrackets();
     Node* GetNumber();
-
-    Node* AddNode(Node* node);
 };
 
 
