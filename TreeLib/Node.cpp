@@ -745,26 +745,23 @@ Node* Node::DiffLog()
                 _value = DIV;
 
                 //Create first level
-                Node* firstRight = new Node (MUL , FUNCTION);
+                Node* firstLeft = new Node (LN , FUNCTION);
+                firstLeft->_left = _left;
+                _left->_parent = firstLeft;
+                firstLeft->_parent = this;
+                _left = firstLeft;
+
+                Node* firstRight = new Node (LN , FUNCTION);
+                _right = firstRight;
                 firstRight->_parent = this;
 
                 //Create second level
-                Node* secondRightLeft = new Node (LN , FUNCTION);
+                Node* secondRightLeft = new Node (10 , CONSTANT);
                 secondRightLeft->_parent = firstRight;
                 firstRight->_left = secondRightLeft;
 
-                Node* secondRightRight = new Node (_left->_value , _left->_define);
-                secondRightRight->_parent = firstRight;
-                firstRight->_right = secondRightRight;
-                secondRightRight->CopyNode(_left);
-
-                //Create third level
-                Node* thirdRightLeftLeft = new Node (10 , CONSTANT);
-                thirdRightLeftLeft->_parent = secondRightLeft;
-                secondRightLeft->_left = thirdRightLeftLeft;
-
                 //Diff.
-                _left->DiffNode();
+                this->DiffNode();
             }
                 break;
 

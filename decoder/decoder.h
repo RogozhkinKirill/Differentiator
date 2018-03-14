@@ -67,14 +67,14 @@ typedef int encoding;
 //FUNCTIONS
 
 //Single
-code(0x0fffff01 , COS);
-code(0x0fffff02 , SIN);
-code(0x0fffff03 , TG);
-code(0x0fffff04 , CTG);
-code(0x0fffff05 , SH);
-code(0x0fffff06 , CH);
-code(0x0fffff07 , TH);
-code(0x0fffff08 , CTH);
+code(0x0fffff01 , COS);//+
+code(0x0fffff02 , SIN);//+
+code(0x0fffff03 , TG);//+
+code(0x0fffff04 , CTG);//+
+code(0x0fffff05 , SH);//+
+code(0x0fffff06 , CH);//+
+code(0x0fffff07 , TH);//+
+code(0x0fffff08 , CTH);//+
 code(0x0fffff09 , EXP);
 code(0x0fffff0a , LN);
 code(0x0fffff0b , LG);

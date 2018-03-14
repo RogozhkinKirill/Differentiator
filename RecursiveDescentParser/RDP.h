@@ -21,6 +21,7 @@
  *E                               GetMULL()     //Look after multiplication and divide
  *P                             GetBrackets()   //Look after brackets
  *N                              GetNumber()    //Look after number
+ *I                             GetImagine()    //Look after variables 'n LOG-functions 'n TRIG-functions
  *
  *
  *
@@ -33,8 +34,8 @@
  *                        |--->T :   I(('+' | '-') , I)*
  *                        |    I :   E(('^') , E)*
  *                        |    E :   P(('*' | '/') , P)*
- *                        |----P :   (T) | N
- *                             N :   [0-9]+
+ *                        |----P :   (T) | N | Im
+ *               N :   [0-9]+  || Im :   ([a-z] & [TRIG-functions] & [LOG-functions])
  *
  *
  *
@@ -92,6 +93,7 @@ private:
     Node* GetMUL();
     Node* GetBrackets();
     Node* GetNumber();
+    Node* GetImagine();
 };
 
 

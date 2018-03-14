@@ -6,6 +6,7 @@
 #define DIFF_PRINT_TREE_H
 
 #include <afxres.h>
+#include <stdlib.h>
 #include "TreeLib.h"
 
 #ifndef CASE

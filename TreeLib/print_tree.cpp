@@ -15,10 +15,11 @@ void PrintToTex (Node* head , const char* address)
     BeginFormula  (TeX);
     WriteNode     (TeX , head);
     EndFormula    (TeX);
- //   CompileTeX    (TeX);
     EndDocument   (TeX);
 
     fclose (TeX);
+
+    CompileTeX    (TeX);
 }
 
 void SetConfig (FILE* TeX)
@@ -285,9 +286,11 @@ void WritePOW  (FILE* TeX , Node* head)
 {
     fprintf   (TeX , "(");
     WriteNode (TeX , head->_left);
+    fprintf   (TeX , ")");
     fprintf   (TeX , "^");
+    fprintf   (TeX , "{");
     WriteNode (TeX , head->_right);
-    fprintf   (TeX , ")\n");
+    fprintf   (TeX , "}\n");
 }
 
 void WriteLOG  (FILE* TeX , Node* head)
@@ -300,9 +303,11 @@ void WriteLOG  (FILE* TeX , Node* head)
     fprintf   (TeX , "}\n");
 }
 
-void CompileTeX (FILE* TeX)
+void CompileTeX (FILE* TeX)//Partly
 {
-    fprintf (TeX , "\\includegraphics{D:\\Study\\Programming\\Projects\\C_C++\\ILab\\Differentiator\\Finished.png}");
+   system ("pdflatex.exe -output-directory=D:\\Study\\Programming\\Projects\\C_C++\\ILab\\Differentiator\\Tex "
+                   "D:\\Study\\Programming\\Projects\\C_C++\\ILab\\Differentiator\\Tex\\Finished.tex");
+    system ("texify --run-viewer D:\\Study\\Programming\\Projects\\C_C++\\ILab\\Differentiator\\Tex\\Finished.tex");
 }
 
 
