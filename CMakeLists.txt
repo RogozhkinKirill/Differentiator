@@ -13,4 +13,15 @@ add_executable(Differentiator
         decoder/decoder.h
 
         Differentiator/Differentiator.cpp
-        Differentiator/Differentiator.h RecursiveDescentParser/RDP.cpp RecursiveDescentParser/RDP.h TreeLib/print_tree.cpp TreeLib/print_tree.h)
+        Differentiator/Differentiator.h
+
+        RecursiveDescentParser/RDP.cpp
+        RecursiveDescentParser/RDP.h
+
+        TreeLib/print_tree.cpp
+        TreeLib/print_tree.h
+
+        TreeLib/simplification.cpp
+        TreeLib/simplification.h TreeLib/debug.h)
+
+add_definitions(-DDEBUG)

@@ -5,10 +5,12 @@
 #include "print_tree.h"
 
 
+
 //Write Tree to TeX
 void PrintToTex (Node* head , const char* address)
 {
     FILE* TeX = fopen (address , "w");
+
     SetConfig (TeX);
 
     BeginDocument (TeX);
@@ -19,12 +21,12 @@ void PrintToTex (Node* head , const char* address)
 
     fclose (TeX);
 
-    CompileTeX    (TeX);
+    CompileTeX (address);
 }
 
 void SetConfig (FILE* TeX)
 {
-    fprintf (TeX , "\\documentclass[12pt]{report}\n"
+    fprintf (TeX , "\\documentclass[12pt]{article}\n"
                   "\\usepackage[cp1251]{inputenc}\n"
                    "\\usepackage[russian]{babel}\n"
                    "\\usepackage{soul}\n");
@@ -44,12 +46,13 @@ void EndDocument (FILE* TeX)
 
 void BeginFormula (FILE* TeX)
 {
-    fprintf (TeX , "\\[\n");
+    fprintf (TeX , "\n\n\\[\n");
 }
 void EndFormula (FILE* TeX)
 {
     fprintf (TeX , "\\]\n");
 }
+
 
 void WriteNode (FILE* TeX , Node* head)
 {
@@ -270,7 +273,7 @@ void WriteDIV  (FILE* TeX , Node* head)
 
     fprintf (TeX , "{");
     WriteNode (TeX , head->_right);
-    fprintf (TeX , "} \n");
+    fprintf (TeX , "}) \n");
 }
 
 void WriteADD  (FILE* TeX , Node* head)
@@ -303,11 +306,16 @@ void WriteLOG  (FILE* TeX , Node* head)
     fprintf   (TeX , "}\n");
 }
 
-void CompileTeX (FILE* TeX)//Partly
+void CompileTeX (const char* address)//Partly
 {
-   system ("pdflatex.exe -output-directory=D:\\Study\\Programming\\Projects\\C_C++\\ILab\\Differentiator\\Tex "
-                   "D:\\Study\\Programming\\Projects\\C_C++\\ILab\\Differentiator\\Tex\\Finished.tex");
-    system ("texify --run-viewer D:\\Study\\Programming\\Projects\\C_C++\\ILab\\Differentiator\\Tex\\Finished.tex");
+    string callMikTeX = "pdflatex.exe -output-directory=D:\\Study\\Programming\\Projects\\C_C++\\ILab\\Differentiator\\Tex ";
+    string openDVI    = "texify --run-viewer ";
+
+    callMikTeX += address;
+    openDVI    += address;
+
+    system (callMikTeX.c_str());
+    system (openDVI.c_str());
 }
 
 

@@ -7,9 +7,6 @@
 
 #include "../decoder/decoder.h"
 
-#define FULL   TRUE
-#define PARTLY FALSE
-
 //===============================================
 //Code of symbol (cos, x, 5, etc.)
 typedef encoding value_type;
@@ -23,7 +20,7 @@ typedef encoding_type definision;
 //NODE
 class Node
 {
-//private
+//private:
 public:
     Node* _right = NULL;
     Node* _left  = NULL;
@@ -87,9 +84,9 @@ public:
     Node* AddNodeLeft  (value_type value , definision def );
 
 
-    /*
-     * Differentiate node using differentiation rules
-     */
+/*
+ * Differentiate node using differentiation rules
+ */
     Node* DiffNode();
 
     //Print Node and call PrintNode to branches
@@ -115,12 +112,17 @@ public:
     ~Tree();
 
     //Conventional
-    bool  StrToTree (char* funcStr);//Don't realized====================================================================
-    char* TreeToStr (char* res);//Don't realized=================================================================================
+    bool  StrToTree (char* funcStr);
+    char* TreeToStr (char* res);
 
+    //Simplification
+    void* Simplification();
+    void* SumSimplification (Node*);
+    void* MulSimplification (Node*);
+    void* CountNodes        (Node* , double* res);
 
     //Main functions
-    Tree* Differentiator(); //Don't realized============================================================================
+    Tree* Differentiator();
 };
 
 #endif //TREE_TREELIB_H

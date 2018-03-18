@@ -25,8 +25,6 @@ Node* RDP::GetBase()
     else
         cout << "ERROR" << endl;
 
-
-    printf ("Define %d\n" , _tree->_head->_define);
     return _tree->_head;
 }
 

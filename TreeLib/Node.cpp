@@ -1,4 +1,5 @@
 #include <afxres.h>
+#include <iostream>
 #include "TreeLib.h"
 #include "print_tree.h"
 
