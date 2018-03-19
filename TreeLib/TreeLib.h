@@ -119,7 +119,7 @@ public:
     void* Simplification();
     void* SumSimplification (Node*);
     void* MulSimplification (Node*);
-    void* CountNodes        (Node* , double* res);
+    void* CountNodes        (Node* , int* res);
 
     //Main functions
     Tree* Differentiator();

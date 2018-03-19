@@ -13,7 +13,7 @@
 //Constructor
 Node::Node()
 {
-    printf ("Simple Constructor called\n");
+    debug_print("Simple Constructor called\n");
     _define = NLL;
     _value = 0;
     _parent = _left = _right = NULL;
@@ -26,8 +26,10 @@ Node::Node(value_type value , definision def)
         strcat(smt , "fun");
     if (def == VARIABLE)
         strcat(smt , "var");
+    if (def == CONSTANT)
+        strcat (smt , "const");
 
-    printf ("Constuctor called: Node define = %s\n" , smt);
+    debug_print("Constuctor called: Node define = %s\n" , smt);
     this->_left   = this->_right = this->_parent = NULL;
     this->_value  = value;
     this->_define = def;
@@ -37,7 +39,7 @@ Node::Node(value_type value , definision def)
 //Destructor
 Node::~Node()
 {
-    printf ("Destructor called: Node\n");
+    debug_print("Destructor called: Node\n");
 
 
     if (this->_right)
@@ -62,7 +64,7 @@ Node* Node::AddNodeRight (value_type value , definision def)
 {
     if(!this)
     {
-        printf("Pointer on Node in Node::AddNodeLeft = NULL");
+        debug_print("Pointer on Node in Node::AddNodeLeft = NULL");
         return NULL;
     }
 
@@ -89,7 +91,7 @@ Node* Node::AddNodeLeft (value_type value , definision def)
 {
     if(!this)
     {
-        printf("Pointer on Node in Node::AddNodeLeft = NULL");
+        debug_print("Pointer on Node in Node::AddNodeLeft = NULL");
         return NULL;
     }
 
@@ -222,14 +224,13 @@ Node* Node::DiffNode()
             {
                 _define = CONSTANT;
                 _value  = 1;
-                printf ("12233\n\n");
             };
                 break;
         }
     }
     else
     {
-        printf("Pointer on Node in DiffeNode = NULL");
+        debug_print("Pointer on Node in DiffeNode = NULL");
         return NULL;
     }
 
@@ -300,9 +301,9 @@ Node* Node::DiffMul()
         _left = firstLeft;
 
         //Diff. firstLeft/Right
-        printf ("Diff left Node\n");
+        debug_print("Diff left Node\n");
         secondLeftLeft->DiffNode();
-        printf ("Diff right Node\n");
+        debug_print("Diff right Node\n");
         secondRightRight->DiffNode();
 
         return this;

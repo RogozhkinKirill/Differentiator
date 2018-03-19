@@ -13,6 +13,8 @@
                                           WriteNode    (debug_file , x);\
                                           EndFormula   (debug_file);
 
+    #define debug_print(...) printf(__VA_ARGS__);
+
 #else
     #define debug_print(...);
     #define debug_print_function(x);

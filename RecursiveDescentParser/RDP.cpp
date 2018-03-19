@@ -12,25 +12,25 @@ Tree* RDP::StrToTree()
 
 Node* RDP::GetBase()
 {
-    cout << "Called G0" << endl;
+    debug_print("Called G0\n");
     Node* res = GetSUM();
 
     if (_function[_ptr] == '\0')
     {
-        cout << "Last _ptr = " << _ptr << endl;
+        debug_print("Last _ptr = %d\n" , _ptr);
     }
 
     if (res)
         _tree->_head = res;
     else
-        cout << "ERROR" << endl;
+        debug_print("ERROR\n");
 
     return _tree->_head;
 }
 
 Node* RDP::GetSUM()
 {
-    cout << "Called T" << endl;
+    debug_print("Called T\n");
 
     Node* local_head = 0;
     Node* node = 0;
@@ -58,23 +58,26 @@ Node* RDP::GetSUM()
         ++_ptr;
         node_res = GetPOW();
 
-        printf ("node_res ptr = 0x%p\n" , node_res);
+        debug_print("node_res ptr = 0x%p\n" , node_res);
         if (node_res)
+        {
             local_head->_right = node_res;
+            node_res->_parent = local_head;
+        }
         else
         {
-            cout << "NULL pointer" << endl;
+            debug_print("NULL pointer\n");
             return NULL;
         }
     }
 
-    cout << "Return to G0" << endl;
+    debug_print("Return to G0\n");
     return local_head;
 }
 
 Node* RDP::GetPOW()
 {
-    cout << "Called I" << endl;
+    debug_print("Called I\n");
 
     Node* local_head = 0;
     Node* node = 0;
@@ -95,20 +98,23 @@ Node* RDP::GetPOW()
         node_res = GetMUL();
 
         if (node_res)
+        {
             local_head->_right = node_res;
+            node_res->_parent = local_head;
+        }
         else
             return NULL;
     }
 
 
-    cout << "Return to T" << endl;
+    debug_print("Return to T\n");
 
     return local_head;
 }
 
 Node* RDP::GetMUL()
 {
-    cout << "Called E" << endl;
+    debug_print("Called E\n");
 
     Node* local_head = 0;
     Node* node = 0;
@@ -140,11 +146,14 @@ Node* RDP::GetMUL()
         node_res = GetBrackets();
 
         if (node_res)
+        {
             local_head->_right = node_res;
+            node_res->_parent = local_head;
+        }
         else
             return NULL;
     }
-    cout << "Return to T" << endl;
+    debug_print("Return to T\n");
 
     return local_head;
 }
@@ -152,7 +161,7 @@ Node* RDP::GetMUL()
 
 Node* RDP::GetBrackets()
 {
-    cout << "Called P" << endl;
+    debug_print("Called P\n");
 
     Node* node_res = 0;
 
@@ -167,7 +176,7 @@ Node* RDP::GetBrackets()
         }
         _ptr++;
 
-        printf ("Out %c\n" , _function[_ptr]);
+        debug_print("Out %c\n" , _function[_ptr]);
     }
     else
     {
@@ -177,14 +186,14 @@ Node* RDP::GetBrackets()
             node_res = GetImagine();
     }
 
-    cout << "Return to E from P" << endl;
+    debug_print("Return to E from P\n");
 
     return node_res;
 }
 
 Node* RDP::GetNumber()
 {
-    cout << "Called N" << endl;
+    debug_print("Called N\n");
 
     Node* node_number = 0;//FLAG means ERROR
 
@@ -221,7 +230,7 @@ Node* RDP::GetNumber()
 
 Node* RDP::GetImagine()
 {
-    cout << "Called Im" << endl;
+    debug_print("Called Im\n");
 
     Node* node_variable = 0;//FLAG means ERROR
 
@@ -229,7 +238,7 @@ Node* RDP::GetImagine()
                                   &&
                           _length > _ptr)
     {
-        printf ("Start _ptr = %d\n" , _ptr);
+        debug_print("Start _ptr = %d\n" , _ptr);
         //COS, CTH, CTG
         if ( _function[_ptr] == 'c')
         {
@@ -243,7 +252,9 @@ Node* RDP::GetImagine()
                     node_variable->_left = GetBrackets();
 
                     if (node_variable->_left)
+                    {
                         node_variable->_left->_parent = node_variable;
+                    }
                 }
             }
 
@@ -269,7 +280,6 @@ Node* RDP::GetImagine()
         //SIN, SH
         if (_function[_ptr] == 's')
         {
-            printf ("Right Way");
             if (_length > _ptr && _function[_ptr+1] == 'i' && _function[_ptr+2] == 'n')
             {
                 _ptr += 3;
@@ -309,7 +319,7 @@ Node* RDP::GetImagine()
                 node_variable->_left->_parent = node_variable;
         }
 
-        //EXp
+        //EXP
         if (_function[_ptr] == 'e' && _function[_ptr+1] == 'x' && _function[_ptr+2] == 'p'
                                    && _length > _ptr)
         {
@@ -347,7 +357,7 @@ Node* RDP::GetImagine()
         }
     }
 
-    cout << "Return to P from Im" << endl;
+    debug_print("Return to P from Im\n");
     return node_variable;
 }
 
@@ -363,7 +373,5 @@ Node* AddLocalHead(Node* added , Node** receiving)
     else
         *receiving = added;
 
-
-   // printf ("receiving ptr = 0x%p\n" , *receiving);
     return *receiving;
 }

@@ -15,9 +15,12 @@ char* Differentiator()
 
     char ress[1000] = {0};
     function->TreeToStr(ress);
-    printf ("\n%s\n\n" , ress);
+    debug_print("\n%s\n\n" , ress);
     function->Simplification();
-    PrintToTex (function->_head , "D:\\Study\\Programming\\Projects\\C_C++\\ILab\\Differentiator\\Tex\\Begin.tex");
+  // PrintToTex (function->_head , "D:\\Study\\Programming\\Projects\\C_C++\\ILab\\Differentiator\\Tex\\Begin.tex");
+    char resss[1000] = {0};
+    function->TreeToStr(resss);
+    debug_print("\n%s\n\n" , resss);
 
     function = function->Differentiator();
 
@@ -27,8 +30,8 @@ char* Differentiator()
     char res[1000] = {0};
     function->TreeToStr(res);
 
-    printf ("%s" , res);
-    PrintToTex (function->_head , "D:\\Study\\Programming\\Projects\\C_C++\\ILab\\Differentiator\\Tex\\Finished.tex");
+    debug_print("%s" , res);
+    //PrintToTex (function->_head , "D:\\Study\\Programming\\Projects\\C_C++\\ILab\\Differentiator\\Tex\\Finished.tex");
 
     delete function;
 
