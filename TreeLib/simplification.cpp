@@ -14,8 +14,8 @@ void* Tree::Simplification()
         res = 0;
         int tmp = 0;
         res = (void*)((int)res + (int)CountNodes(_head , &tmp));
-        //res = (void*)((int)res + (int)SumSimplification(_head));
-        //res = (void*)((int)res + (int)MulSimplification(_head));
+        res = (void*)((int)res + (int)SumSimplification(_head));
+        res = (void*)((int)res + (int)MulSimplification(_head));
     }while(res);
 }
 
@@ -28,7 +28,7 @@ void* Tree::CountNodes(Node* node , int* number)
     if (node && node->_define == FUNCTION)
     {
         debug_print("Case FUNCTION\nnode->_value = 0x%p\n" , node->_value);
-        if (node->_left->_define == CONSTANT && node->_right->_define == CONSTANT)
+        if (node->_left->_define == CONSTANT && node->_right && node->_right->_define == CONSTANT)
         {
             switch (node->_value)
             {
@@ -137,7 +137,7 @@ void* Tree::CountNodes(Node* node , int* number)
                     return (void*)1;
             }
 
-            if (node->_right->_define == FUNCTION)
+            if (node->_right && node->_right->_define == FUNCTION)
             {
                 int tmp = 0;
                 tmp_res = CountNodes(node->_right , &tmp);
