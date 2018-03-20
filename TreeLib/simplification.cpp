@@ -79,16 +79,19 @@ void* Tree::CountNodes(Node* node , int* number)
 
                 case DIV:
                 {
-                    debug_print("Case DIV\n");
-                    node->_define = CONSTANT;
-                    node->_value = node->_left->_value / node->_right->_value;
-                    *number = node->_value;
+                    if (node->_right->_value != 0)
+                    {
+                        debug_print("Case DIV\n");
+                        node->_define = CONSTANT;
+                        node->_value = node->_left->_value / node->_right->_value;
+                        *number = node->_value;
 
-                    delete node->_right;
-                    delete node->_left;
-                    node->_right = node->_left = NULL;
+                        delete node->_right;
+                        delete node->_left;
+                        node->_right = node->_left = NULL;
 
-                    return (void*)1;
+                        return (void *) 1;
+                    }
                 }
                     break;
 

@@ -26,7 +26,7 @@ public:
     Node* _left  = NULL;
     Node* _parent  = NULL;
 
-    value_type _value  = 0;
+    value_type _value;
     definision _define;
 
 

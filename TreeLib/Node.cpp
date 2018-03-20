@@ -481,6 +481,7 @@ Node* Node::DiffTrig()
                 Node *secondRightRight = new Node (_left->_value , _left->_define);
                 firstRight->_right = secondRightRight;
                 secondRightRight->_parent = firstRight;
+                secondRightRight->CopyNode(_left);
 
                 Node* secondRightLeft = new Node (SIN , FUNCTION);
                 firstRight->_left = secondRightLeft;
@@ -512,6 +513,7 @@ Node* Node::DiffTrig()
                 Node *secondRightRight = new Node (_left->_value , _left->_define);
                 firstRight->_right = secondRightRight;
                 secondRightRight->_parent = firstRight;
+                secondRightRight->CopyNode(_left);
 
                 Node* secondRightLeft = new Node (COS , FUNCTION);
                 firstRight->_left = secondRightLeft;
@@ -543,6 +545,7 @@ Node* Node::DiffTrig()
                 Node *secondRightRight = new Node (_left->_value , _left->_define);
                 firstRight->_right = secondRightRight;
                 secondRightRight->_parent = firstRight;
+                secondRightRight->CopyNode(_left);
 
                 Node* secondRightLeft = new Node (CH , FUNCTION);
                 firstRight->_left = secondRightLeft;
@@ -574,6 +577,7 @@ Node* Node::DiffTrig()
                 Node *secondRightRight = new Node (_left->_value , _left->_define);
                 firstRight->_right = secondRightRight;
                 secondRightRight->_parent = firstRight;
+                secondRightRight->CopyNode(_left);
 
                 Node* secondRightLeft = new Node (SH , FUNCTION);
                 firstRight->_left = secondRightLeft;
@@ -774,6 +778,7 @@ Node* Node::DiffLog()
                 //Create first level
                 Node* firstRight = new Node (_left->_value , _left->_define);
                 _right = firstRight;
+                firstRight->CopyNode(_left);
                 firstRight->_parent = this;
                 firstRight->CopyNode(_left);
 
