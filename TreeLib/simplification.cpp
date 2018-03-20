@@ -8,7 +8,7 @@
 void* Tree::Simplification()
 {
     void* res = 0;
-
+    printf ("Test");
     do
     {
         res = 0;
