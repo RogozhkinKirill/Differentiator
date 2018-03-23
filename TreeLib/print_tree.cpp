@@ -248,52 +248,85 @@ void WriteVar  (FILE* TeX , Node* head)
 
 void WriteMUL  (FILE* TeX , Node* head)
 {
-    fprintf (TeX , "(");
-    WriteNode (TeX , head->_left);
-    fprintf (TeX , "\\cdot ");
-    WriteNode (TeX , head->_right);
-    fprintf (TeX , ")\n");
+    if (head->_parent && head->_parent->_value > MUL) {
+        fprintf(TeX, "(");
+        WriteNode(TeX, head->_left);
+        fprintf(TeX, "\\cdot ");
+        WriteNode(TeX, head->_right);
+        fprintf(TeX, ")\n");
+    }
+    else {
+        WriteNode(TeX, head->_left);
+        fprintf(TeX, "\\cdot ");
+        WriteNode(TeX, head->_right);
+    }
 }
 
 void WriteSUB  (FILE* TeX , Node* head)
 {
-    fprintf (TeX , "(");
-    WriteNode (TeX , head->_left);
-    fprintf (TeX , "-");
-    WriteNode (TeX , head->_right);
-    fprintf (TeX , ")\n");
+    if (head->_parent && head->_parent->_value > SUB) {
+        fprintf(TeX, "(");
+        WriteNode(TeX, head->_left);
+        fprintf(TeX, "-");
+        WriteNode(TeX, head->_right);
+        fprintf(TeX, ")\n");
+    }
+    else {
+        WriteNode(TeX, head->_left);
+        fprintf(TeX, "-");
+        WriteNode(TeX, head->_right);
+        fprintf(TeX, "\n");
+    }
 }
 
 void WriteDIV  (FILE* TeX , Node* head)
 {
-    fprintf (TeX , " ( \\frac");
+    fprintf (TeX , " \\frac");
     fprintf (TeX , "{");
     WriteNode (TeX , head->_left);
     fprintf (TeX , "}");
 
     fprintf (TeX , "{");
     WriteNode (TeX , head->_right);
-    fprintf (TeX , "}) \n");
+    fprintf (TeX , "} \n");
 }
 
 void WriteADD  (FILE* TeX , Node* head)
 {
-    fprintf (TeX , "(");
-    WriteNode (TeX , head->_left);
-    fprintf (TeX , "+");
-    WriteNode (TeX , head->_right);
-    fprintf (TeX , ")\n");
+    if (head->_parent && head->_parent->_value > SUB) {
+        fprintf(TeX, "(");
+        WriteNode(TeX, head->_left);
+        fprintf(TeX, "+");
+        WriteNode(TeX, head->_right);
+        fprintf(TeX, ")\n");
+    }
+    else {
+        WriteNode(TeX, head->_left);
+        fprintf(TeX, "+");
+        WriteNode(TeX, head->_right);
+        fprintf(TeX, "\n");
+    }
+
 }
 
 void WritePOW  (FILE* TeX , Node* head)
 {
-    fprintf   (TeX , "(");
-    WriteNode (TeX , head->_left);
-    fprintf   (TeX , ")");
-    fprintf   (TeX , "^");
-    fprintf   (TeX , "{");
-    WriteNode (TeX , head->_right);
-    fprintf   (TeX , "}\n");
+    if (head->_parent && (head->_parent->_define == CONSTANT || head->_parent->_define == VARIABLE)) {
+        fprintf(TeX, "(");
+        WriteNode(TeX, head->_left);
+        fprintf(TeX, ")");
+        fprintf(TeX, "^");
+        fprintf(TeX, "{");
+        WriteNode(TeX, head->_right);
+        fprintf(TeX, "}\n");
+    }
+    else {
+        WriteNode(TeX, head->_left);
+        fprintf(TeX, "^");
+        fprintf(TeX, "{");
+        WriteNode(TeX, head->_right);
+        fprintf(TeX, "}\n");
+    }
 }
 
 void WriteLOG  (FILE* TeX , Node* head)

@@ -24,4 +24,4 @@ add_executable(Differentiator
         TreeLib/simplification.cpp
         TreeLib/simplification.h TreeLib/debug.h)
 
-add_definitions(-DDEBUG)
+add_definitions()

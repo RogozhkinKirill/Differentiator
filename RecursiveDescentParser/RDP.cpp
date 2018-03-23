@@ -247,8 +247,8 @@ Node* RDP::GetImagine()
                 ++_ptr;
                 if (_function[++_ptr] == 's' &&  _length > _ptr)
                 {
-                    node_variable = new Node(COS, FUNCTION);
                     ++_ptr;
+                    node_variable = new Node(COS, FUNCTION);
                     node_variable->_left = GetBrackets();
 
                     if (node_variable->_left)
@@ -263,11 +263,13 @@ Node* RDP::GetImagine()
                 _ptr += 2;
                 if (_function[_ptr] == 'h' &&  _length > _ptr)
                 {
+                    ++_ptr;
                     node_variable = new Node(CTH, FUNCTION);
                     node_variable->_left = GetBrackets();
                 }
                 else if (_function[_ptr] == 'g' &&  _length > _ptr)
                 {
+                    ++_ptr;
                     node_variable = new Node(CTG, FUNCTION);
                     node_variable->_left = GetBrackets();
                 }

@@ -597,26 +597,18 @@ Node* Node::DiffTrig()
                 _value = DIV;
 
                 //Create first level
-                Node *firstRight = new Node(POW, FUNCTION);
+                Node* firstRight = new Node(COS, FUNCTION);
                 firstRight->_parent = this;
                 _right = firstRight;
+                firstRight->_left = new Node(_left->_value, _left->_define);
+                firstRight->_left->CopyNode(_left);
 
-                //Create second level
-                Node *secondRightRight = new Node(2, CONSTANT);
-                secondRightRight->_parent = firstRight;
-                firstRight->_right = secondRightRight;
+                 Node* firstLeft = new Node(SIN, FUNCTION);
+                firstLeft->_parent = this;
+                firstLeft->_left = _left;
+                _left = firstLeft;
 
-                Node *secondRightLeft = new Node(COS, FUNCTION);
-                secondRightLeft->_parent = firstRight;
-                firstRight->_left = secondRightLeft;
-
-                //Create third level
-                Node *thirdRightLeftLeft = new Node(_left->_value, _left->_define);
-                thirdRightLeftLeft->_parent = secondRightLeft;
-                secondRightLeft->_left = thirdRightLeftLeft;
-
-                //Diff.
-                _left->DiffNode();
+                DiffNode();
             }
                 break;
 
@@ -625,27 +617,18 @@ Node* Node::DiffTrig()
                 _value = DIV;
 
                 //Create first level
-                Node *firstRight = new Node(POW, FUNCTION);
+                Node* firstRight = new Node(CH, FUNCTION);
                 firstRight->_parent = this;
                 _right = firstRight;
+                firstRight->_left = new Node(_left->_value, _left->_define);
+                firstRight->_left->CopyNode(_left);
 
-                //Create second level
-                Node *secondRightRight = new Node(2, CONSTANT);
-                secondRightRight->_parent = firstRight;
-                firstRight->_right = secondRightRight;
+                Node* firstLeft = new Node(SH, FUNCTION);
+                firstLeft->_parent = this;
+                firstLeft->_left = _left;
+                _left = firstLeft;
 
-                Node *secondRightLeft = new Node(CH, FUNCTION);
-                secondRightLeft->_parent = firstRight;
-                firstRight->_left = secondRightLeft;
-
-                //Create third level
-                Node *thirdRightLeftLeft = new Node(_left->_value, _left->_define);
-                thirdRightLeftLeft->_parent = secondRightLeft;
-                secondRightLeft->_left = thirdRightLeftLeft;
-                thirdRightLeftLeft->CopyNode(_left);
-
-                //Diff.
-                _left->DiffNode();
+                DiffNode();
             }
                 break;
 
@@ -654,40 +637,18 @@ Node* Node::DiffTrig()
                 _value = DIV;
 
                 //Create first level
-                Node *firstRight = new Node(POW, FUNCTION);
+                Node* firstRight = new Node(SIN, FUNCTION);
                 firstRight->_parent = this;
                 _right = firstRight;
+                firstRight->_left = new Node(_left->_value, _left->_define);
+                firstRight->_left->CopyNode(_left);
 
-                Node *firstLeft = new Node(MUL, FUNCTION);
+                Node* firstLeft = new Node(COS, FUNCTION);
                 firstLeft->_parent = this;
-
-                //Create second level
-                Node *secondRightRight = new Node(2, CONSTANT);
-                secondRightRight->_parent = firstRight;
-                firstRight->_right = secondRightRight;
-
-                Node *secondRightLeft = new Node(SIN, FUNCTION);
-                secondRightLeft->_parent = firstRight;
-                firstRight->_left = secondRightLeft;
-
-
-                Node *secondLeftLeft = new Node(-1, CONSTANT);
-                secondLeftLeft->_parent = firstLeft;
-                firstLeft->_left = secondLeftLeft;
-
-                Node *secondLeftRight = new Node(_left->_value, _left->_define);
-                secondLeftRight->_parent = firstLeft;
-                firstLeft->_right = secondLeftRight;
-                secondLeftRight->CopyNode(_left);
-
-                //Reconnect _left
-                _left->_parent = secondRightLeft;
-                secondRightLeft->_left = _left;
-
+                firstLeft->_left = _left;
                 _left = firstLeft;
 
-                //Diff.
-                secondLeftRight->DiffNode();
+                DiffNode();
             }
                 break;
 
@@ -697,40 +658,18 @@ Node* Node::DiffTrig()
                 _value = DIV;
 
                 //Create first level
-                Node *firstRight = new Node(POW, FUNCTION);
+                Node* firstRight = new Node(SH, FUNCTION);
                 firstRight->_parent = this;
                 _right = firstRight;
+                firstRight->_left = new Node(_left->_value, _left->_define);
+                firstRight->_left->CopyNode(_left);
 
-                Node *firstLeft = new Node(MUL, FUNCTION);
+                Node* firstLeft = new Node(CH, FUNCTION);
                 firstLeft->_parent = this;
-
-                //Create second level
-                Node *secondRightRight = new Node(2, CONSTANT);
-                secondRightRight->_parent = firstRight;
-                firstRight->_right = secondRightRight;
-
-                Node *secondRightLeft = new Node(SH, FUNCTION);
-                secondRightLeft->_parent = firstRight;
-                firstRight->_left = secondRightLeft;
-
-
-                Node *secondLeftLeft = new Node(-1, CONSTANT);
-                secondLeftLeft->_parent = firstLeft;
-                firstLeft->_left = secondLeftLeft;
-
-                Node *secondLeftRight = new Node(_left->_value, _left->_define);
-                secondLeftRight->_parent = firstLeft;
-                firstLeft->_right = secondLeftRight;
-                secondLeftRight->CopyNode(_left);
-
-                //Reconnect _left
-                _left->_parent = secondRightLeft;
-                secondRightLeft->_left = _left;
-
+                firstLeft->_left = _left;
                 _left = firstLeft;
 
-                //Diff.
-                secondLeftRight->DiffNode();
+                DiffNode();
             }
                 break;
             default:break;

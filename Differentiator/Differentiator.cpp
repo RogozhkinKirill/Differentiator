@@ -27,7 +27,7 @@ char* Differentiator()
     //Simplification
     function->Simplification();
 
-    char res[1000] = {0};
+    char res[100000] = {0};
     function->TreeToStr(res);
 
     debug_print("%s" , res);

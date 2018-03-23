@@ -8,7 +8,7 @@
 void* Tree::Simplification()
 {
     void* res = 0;
-    printf ("Test");
+
     do
     {
         res = 0;
@@ -159,10 +159,12 @@ void* Tree::CountNodes(Node* node , int* number)
 void* Tree::SumSimplification (Node* node)
 {
     void* res = 0;
-    if (node && node->_define == FUNCTION && node->_value == ADD)
+    if (node && node->_define == FUNCTION && (node->_value == ADD || node->_value == SUB))
     {
-        if (node->_left->_define == CONSTANT && node->_left->_value == 0)
+        printf ("Right way\n\n\n\n\n\n");
+        if (node->_left->_define == CONSTANT && node->_left->_value == 0 && node->_value == ADD)
         {
+            printf ("Right way\n\n\n\n\n\n");
             if (node->_parent)
             {
                 if (node->_parent->_left == node)
@@ -171,7 +173,6 @@ void* Tree::SumSimplification (Node* node)
                     node->_parent->_left = node->_right;
                     node->_right = NULL;
 
-                    printf ("0x%p\nLine = %d\n" , node , __LINE__);
                     delete node;
                     return (void*)1;
                 }
@@ -181,7 +182,6 @@ void* Tree::SumSimplification (Node* node)
                     node->_parent->_right = node->_right;
                     node->_right = NULL;
 
-                    printf ("0x%p\nLine = %d\n" , node , __LINE__);
                     delete node;
                     return (void*)1;
                 }
@@ -208,7 +208,6 @@ void* Tree::SumSimplification (Node* node)
                     node->_parent->_left = node->_left;
                     node->_left = NULL;
 
-                    printf ("0x%p\nLine = %d\n" , node , __LINE__);
                     delete node;
                     return (void*)1;
                 }
@@ -218,7 +217,6 @@ void* Tree::SumSimplification (Node* node)
                     node->_parent->_right = node->_left;
                     node->_left = NULL;
 
-                    printf ("0x%p\nLine = %d\n" , node , __LINE__);
                     delete node;
                     return (void*)1;
                 }
